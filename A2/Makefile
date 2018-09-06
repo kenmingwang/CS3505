@@ -1,12 +1,8 @@
-INC = -I ./include/
+HARUDIR = harulib
 
 
 pdf: pdfExample.o
-	g++ pdfExample.o
+	g++ -o pdftest pdfExample.o -L $(HARUDIR)/lib -lHaruPDF
 
-pdfExample.o: pdfExample.cpp include/hpdf.h
-	g++ $INC -c pdfExample.cpp
-
-g++ -I libharu/include -c pdfExample.cpp
-
-g++ pdfExample.o -L libharu/src/ -lhpdfs
+pdfExample.o: pdfExample.cpp
+	g++ -c pdfExample.cpp -I $(HARUDIR)/include

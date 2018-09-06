@@ -17,23 +17,23 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "hpdf.h"
+#include "HaruPDF.h"
 
 // argc is the number of arguments. Argv is an array of character arrays, or C-style strings.
 // If you call the program like ./pdfExample "Hello", then argv[1] would contain "Hello\0".
 // argv[0] would be "pdfExample\0" - the name of the executing program.
 int main (int argc, char **argv)
 {
-    HPDF_Doc  pdf;
-    HPDF_Page page;
+    // HPDF_Doc  pdf;
+    // HPDF_Page page;
     char fname[256];
-    HPDF_Font font;
+    // HPDF_Font font;
     float angle2;
     float rad1;
     float rad2;
     unsigned int i;
 
-    const char* SAMP_TXT = "The quick brown fox jumps over the lazy dog. We need more text to test a spiral. Maybe the radians needs to increase with smaller radius. ";
+    const char* SAMP_TXT = "NEKENEKENEKENEK COLLODJSAIOFJIJOWAJFIOJFOAWJoFJWIOAFJSIOJ ";
 
     // argv are the command line arguments
     // argv[0] is the name of the executable program
@@ -41,22 +41,25 @@ int main (int argc, char **argv)
     strcpy (fname, argv[0]);
     strcat (fname, ".pdf");
 
-    pdf = HPDF_New (NULL, NULL);
-    /* add a new page object. */
-    page = HPDF_AddPage (pdf);
-    HPDF_Page_SetSize (page, HPDF_PAGE_SIZE_A5, HPDF_PAGE_PORTRAIT);
-//    print_grid  (pdf, page);
-    font = HPDF_GetFont (pdf, "Helvetica", NULL);
-    HPDF_Page_SetTextLeading (page, 20);
-    HPDF_Page_SetGrayStroke (page, 0);
+//     pdf = HPDF_New (NULL, NULL);
+//     /* add a new page object. */
+//     page = HPDF_AddPage (pdf);
+//     HPDF_Page_SetSize (page, HPDF_PAGE_SIZE_A5, HPDF_PAGE_PORTRAIT);
+// //    print_grid  (pdf, page);
+//     font = HPDF_GetFont (pdf, "Helvetica", NULL);
+//     HPDF_Page_SetTextLeading (page, 20);
+//     HPDF_Page_SetGrayStroke (page, 0);
+    HaruPDF myPDF("test",2);
+
+
 
     /* text along a circle */
     angle2 = 180;
 
-    HPDF_Page_BeginText (page);
-    // Their example sets font twice. Probably some kind of mistake. Fix it or do what they do.
-    font = HPDF_GetFont (pdf, "Courier-Bold", NULL);
-    HPDF_Page_SetFontAndSize (page, font, 30);
+    // HPDF_Page_BeginText (page);
+    // // Their example sets font twice. Probably some kind of mistake. Fix it or do what they do.
+    // font = HPDF_GetFont (pdf, "Courier-Bold", NULL);
+    // HPDF_Page_SetFontAndSize (page, font, 30);
     // Place characters one at a time on the page.
     for (i = 0; i < strlen (SAMP_TXT); i++) {
         char buf[2];
@@ -76,27 +79,32 @@ int main (int argc, char **argv)
         x = 210 + cos(rad2) * 150;
         y = 300 + sin(rad2) * 150;
 
+        myPDF.writeOneLetter(0,SAMP_TXT[i],30,cos(rad1),
+                            sin(rad1), -sin(rad1), cos(rad1),x, y);
+
         // This ugly function defines where any following text will be placed
         // on the page. The cos/sin stuff is actually defining a 2D rotation
         // matrix.
-        HPDF_Page_SetTextMatrix(page,
-                                cos(rad1), sin(rad1), -sin(rad1), cos(rad1),
-                                x, y);
+        // HPDF_Page_SetTextMatrix(page,
+        //                         cos(rad1), sin(rad1), -sin(rad1), cos(rad1),
+        //                         x, y);
 
         // C-style strings are null-terminated. The last character must a 0.
-        buf[0] = SAMP_TXT[i]; // The character to display
-        buf[1] = 0;
-        HPDF_Page_ShowText (page, buf);
+        // buf[0] = SAMP_TXT[i]; // The character to display
+        // buf[1] = 0;
+        // HPDF_Page_ShowText (page, buf);
         angle2 -= 10.0; // change the angle around the circle
     }
 
-    HPDF_Page_EndText (page);
+    myPDF.saveAsPDF();
 
-    /* save the document to a file */
-    HPDF_SaveToFile (pdf, fname);
-
-    /* clean up */
-    HPDF_Free (pdf);
+    // HPDF_Page_EndText (page);
+    //
+    // /* save the document to a file */
+    // HPDF_SaveToFile (pdf, fname);
+    //
+    // /* clean up */
+    // HPDF_Free (pdf);
 
     return 0;
 }
