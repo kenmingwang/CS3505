@@ -4,13 +4,16 @@
   C++ programming related to ecological simulation of rabbit and fox.
 */
 
+//Libraries needed to compile
 #include <iostream>
 #include <cmath>
 using namespace std;
 
+//Methods declaration
 void plotPopulations(double,double,double);
 void updatePopulations(double,double,double,double,double,double&,double&);
 void incrementCounter(int*);
+
 //Main function that does the simulation and plots within a loop.
 int main()
 {
@@ -75,13 +78,16 @@ void helper(int number, char ch) {
 //Void function for charting and plotting the updatePopulations
 void plotPopulations(double numRabbits, double numFoxes, double scale){
   int rabPos = floor(numRabbits * scale) + 1, foxPos = floor(numFoxes * scale) + 1;
+  //Special case when rabbit equals to foxes
   if(rabPos - foxPos == 0){
     helper(rabPos,'*');
     return;
   }
+  //Usual case where either one is in front of the other.
   (rabPos - foxPos < 0) ? (helper(rabPos,'r'),helper(foxPos - rabPos, 'F')) : (helper(foxPos, 'F'),helper(rabPos - foxPos,'r'));
 }
 
+//Method for step 5 incrementing a pointer counter.
 void incrementCounter(int* p){
   *p = *p +1;
 }
