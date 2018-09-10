@@ -1,8 +1,13 @@
-HARUDIR = harulib
+LIBHARU = libharu
 
+spiralpdf: spiralPDF.o Spiral.o HaruPDF.o libhpdfs.a
+	g++ -o spiralPDF.o Spiral.o HaruPDF.o
 
-pdf: pdfExample.o
-	g++ -o pdftest pdfExample.o -L $(HARUDIR)/lib -lHaruPDF
+spiralPDF.o : spiralPDF.cpp HaruPDF.h
+	g++ -c spiralPDF.cpp -I $(LIBHARU)/include -L $(LIBHARU)/src -lhpdfs
 
-pdfExample.o: pdfExample.cpp
-	g++ -c pdfExample.cpp -I $(HARUDIR)/include
+Spiral.o : Spiral.h
+	g++ -c Spiral.cpp
+
+HaruPDF.o: HaruPDF.h hpdf.h HaruPDF.cpp libhpdfs.a
+	g++ -c HaruPDF.cpp -I $(LIBHARU)/include -L $(LIBHARU)/src -lhpdfs

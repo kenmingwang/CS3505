@@ -20,14 +20,14 @@ void HaruPDF::writeOneLetter(int pg, char c, int size,
                              float r4, float x, float y){
     char buf[2];
 
-    HPDF_Page_BeginText (p);
+    HPDF_Page_BeginText (pages[pg]);
     HPDF_Font font = HPDF_GetFont (doc, "Courier-Bold", NULL);
-    HPDF_Page_SetFontAndSize (p, font, size);
-    HPDF_Page_SetTextMatrix(p,r1,r2,r3,r4,x,y);
+    HPDF_Page_SetFontAndSize (pages[pg], font, size);
+    HPDF_Page_SetTextMatrix(pages[pg],r1,r2,r3,r4,x,y);
     buf[0] = c;
     buf[1] = 0;
-    HPDF_Page_ShowText (p, buf);
-    HPDF_Page_EndText (p);
+    HPDF_Page_ShowText (pages[pg], buf);
+    HPDF_Page_EndText (pages[pg]);
 }
 
 void HaruPDF::saveAsPDF(){
