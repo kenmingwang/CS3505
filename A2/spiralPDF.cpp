@@ -29,9 +29,10 @@ int main (int argc, char **argv)
     float rad1;
     float rad2;
     unsigned int i;
-    char* SAMP_TXT;
-    if(strlen(argv[1]) != 0){
-      strcpy(SAMP_TXT,argv[1]);
+    string SAMP_TXT ;
+    cout << "test";
+    if(argc > 1){
+      SAMP_TXT.assign(argv[1],strlen(argv[1]));
     }
     else{
       cout << "NO TEXT ERROR: Please try again with text provided.";
@@ -41,6 +42,7 @@ int main (int argc, char **argv)
     // argv are the command line arguments
     // argv[0] is the name of the executable program
     // This makes an output pdf named after the program's name
+
     strcpy (fname, argv[0]);
     strcat (fname, ".pdf");
 
@@ -49,7 +51,7 @@ int main (int argc, char **argv)
     /* Spiral text */
     Spiral mySpiral(210,300,75,90);
     // Place characters one at a time on the page.
-    for (i = 0; i < strlen(SAMP_TXT); i++) {
+    for (i = 0; i < SAMP_TXT.length(); i++) {
 
       //Text rotations
       rad1 = (mySpiral.getTextAngle() - 90) / 180 * 3.141592;
