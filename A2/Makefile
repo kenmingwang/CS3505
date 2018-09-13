@@ -1,13 +1,18 @@
+CC = g++
+CFLAG = -c -Wall
 LIBHARU = libharu
 
-spiralpdf: spiralPDF.o Spiral.o HaruPDF.o $(LIBHARU)/include/hpdf.h $(LIBHARU)/src/libhpdfs.a
-	g++ -o spiralpdf spiralPDF.o Spiral.o HaruPDF.o -I $(LIBHARU)/include -L $(LIBHARU)/src -lhpdfs
+test: spiralPDF.o Spiral.o HaruPDF.o
+	$(CC) -o spiralPDF spiralPDF.o Spiral.o HaruPDF.o -L $(LIBHARU)/src -lhpdfs
 
-spiralPDF.o : HaruPDF.h spiralPDF.cpp
-	g++ -c spiralPDF.cpp -I $(LIBHARU)/include -L $(LIBHARU)/src -lhpdfs
+spiralPDF.o : HaruPDF.h spiralPDF.cpp Spiral.h
+	$(CC) $(CFLAG) spiralPDF.cpp -I $(LIBHARU)/include
 
 Spiral.o : Spiral.h Spiral.cpp
-	g++ -c Spiral.cpp
+	$(CC) $(CFLAG) Spiral.cpp
 
-HaruPDF.o: HaruPDF.h HaruPDF.cpp  $(LIBHARU)/include/hpdf.h $(LIBHARU)/src/libhpdfs.a
-	g++ -c HaruPDF.cpp -I $(LIBHARU)/include -L $(LIBHARU)/src -lhpdfs
+HaruPDF.o: HaruPDF.h HaruPDF.cpp $(LIBHARU)/include/hpdf.h
+	$(CC) $(CFLAG) HaruPDF.cpp -I $(LIBHARU)/include
+
+clean:
+		rm -f *.o  test

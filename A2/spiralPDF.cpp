@@ -27,10 +27,8 @@ int main (int argc, char **argv)
 {
     char fname[256];
     float rad1;
-    float rad2;
     unsigned int i;
     string SAMP_TXT ;
-    cout << "test";
     if(argc > 1){
       SAMP_TXT.assign(argv[1],strlen(argv[1]));
     }
@@ -42,9 +40,7 @@ int main (int argc, char **argv)
     // argv are the command line arguments
     // argv[0] is the name of the executable program
     // This makes an output pdf named after the program's name
-
     strcpy (fname, argv[0]);
-    strcat (fname, ".pdf");
 
     /* Create PDF */
     HaruPDF myPDF(fname,1);
@@ -55,7 +51,6 @@ int main (int argc, char **argv)
 
       //Text rotations
       rad1 = (mySpiral.getTextAngle() - 90) / 180 * 3.141592;
-      rad2 = mySpiral.getTextAngle() / 180 * 3.141592;
       //Write text with position
       myPDF.writeOneLetter(0,SAMP_TXT[i],30,cos(rad1),
                             sin(rad1), -sin(rad1), cos(rad1),mySpiral.getTextX(), mySpiral.getTextY());
@@ -63,6 +58,7 @@ int main (int argc, char **argv)
       mySpiral++;
     }
 
+    //Save myPDF obj into pdf
     myPDF.saveAsPDF();
 
     return 0;

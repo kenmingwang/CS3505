@@ -9,12 +9,18 @@ using namespace std;
    double CenterX, CenterY, radius, angle;
    double count;
  public:
+   /* Construct a spiral obj with x y coordinates, the initial radius and angle.*/
    Spiral(int X, int Y, int rad, int ang);
+   //Pre++
    Spiral& operator++();
+   //Post++
    Spiral operator++(int);
+   //Getter for X
    double getTextX();
+   //Getter for Y
    double getTextY();
+   //Getter for angle in degrees
    double getTextAngle();
-   double getRadius();
+   //Overloading << operator, returns the Spiral specifications.
    friend ostream& operator<<(ostream& os, const Spiral& sp);
  };
